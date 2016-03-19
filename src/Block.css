@@ -1,0 +1,32 @@
+.block {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+    background: lightblue;
+}
+
+.brickBlock {
+    background: url("../img/brick.png");
+}
+
+.player {
+    background: url("../img/player.png");
+}
+
+.moveableBlock {
+    z-index: 99;
+}
+
+.box {
+    background: url("../img/box.png");
+}
+
+.target {
+    background: url("../img/target.png");
+}

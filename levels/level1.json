@@ -1,0 +1,174 @@
+{
+  "playerPosition": {
+    "x": 10,
+    "y": 5
+  },
+  "prev": null,
+  "next": "./levels/level2.json",
+  "blockList": [
+    {
+      "blockType": "box",
+      "position": {
+        "x": 8,
+        "y": 5
+      }
+    },
+    {
+      "blockType": "box",
+      "position": {
+        "x": 11,
+        "y": 5
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 10,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 9,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 8,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 7,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 11,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 12,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 13,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 14,
+        "y": 4
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 10,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 9,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 8,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 7,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 11,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 12,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 13,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 14,
+        "y": 6
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 14,
+        "y": 5
+      }
+    },
+    {
+      "blockType": "fixed",
+      "position": {
+        "x": 6,
+        "y": 5
+      }
+    }
+  ],
+  "targetList": [
+    {
+      "x": 7,
+      "y": 5
+    },
+    {
+      "x": 13,
+      "y": 5
+    }
+  ]
+}

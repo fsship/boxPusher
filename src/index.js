@@ -1,7 +1,7 @@
 "use strict";
 
 import { Box, blockGenerator } from './block';
-import './game.css';
+import './game.scss';
 
 class Game {
     constructor() {

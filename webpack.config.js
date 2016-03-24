@@ -22,6 +22,10 @@ module.exports = {
                 loader: 'style!css!sass'
             },
             {
+                test: /\.scss/,
+                loader: 'style!css!sass'
+            },
+            {
                 test: /\.html/,
                 loader: 'html'
             },
@@ -30,5 +34,8 @@ module.exports = {
                 loader: 'url'
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ]
 };

@@ -1,0 +1,62 @@
+.gameBox {
+    width: 1000px;
+    height: 500px;
+    margin: auto;
+    position: relative;
+}
+
+.info {
+    margin: auto;
+}
+
+.center {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+}
+
+button {
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+@mixin transition($prop) {
+    -webkit-transition: $prop;
+    -moz-transition: $prop;
+    -ms-transition: $prop;
+    -o-transition: $prop;
+    transition: $prop;
+}
+
+@mixin transform($prop) {
+    -webkit-transform: $prop;
+    -moz-transform: $prop;
+    -ms-transform: $prop;
+    -o-transform: $prop;
+    transform: $prop;
+}
+
+.win {
+    position: absolute;
+    width: 400px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 10px;
+    border: 4px solid black;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -200px;
+    background: white;
+    display: table;
+    text-align: center;
+    @include transform(rotateY(90deg));
+    z-index: 999;
+    //@include transition(all 0.5s);
+}
+
+.flipped {
+    @include transform(rotateY(0deg));
+    @include transition(all 0.5s);
+}
+

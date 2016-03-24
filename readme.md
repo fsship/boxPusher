@@ -1,4 +1,4 @@
-### BosPusher
+### BoxPusher
 
 推箱子游戏
 

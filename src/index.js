@@ -1,6 +1,7 @@
 "use strict";
 
 import { Box, blockGenerator } from './block';
+import DropArea from './dropArea';
 import './game.scss';
 
 class Game {
@@ -15,9 +16,20 @@ class Game {
         this.nextLevel = null;
         this.notWin = true;
         this.currentLevel = null;
+        this.dropArea = new DropArea();
         var that = this;
-        document.querySelector('.ctrl').addEventListener('click', (e) => {
-            console.log(e);
+        this.dropArea.addDropHandler((e) => {
+            var file = e.dataTransfer.files[0];
+            var reader = new FileReader();
+            reader.onload = (event) => {
+                var levelInfo = JSON.parse(event.target.result);
+                that.renderStage(levelInfo);
+            };
+            reader.readAsText(file);
+            e.preventDefault();
+            that.dropArea.hide();
+        });
+        document.body.addEventListener('click', (e) => {
             switch (e.target.id) {
                 case 'prev':
                     that.loadLevel(that.prevLevel);
@@ -28,6 +40,11 @@ class Game {
                 case 'restart':
                     that.loadLevel(that.currentLevel);
                     break;
+                case 'loadLocal':
+                    that.dropArea.show();
+                    break;
+                default :
+                    that.dropArea.hide();
             }
         });
         document.body.addEventListener('keydown', (e) => {
@@ -42,11 +59,30 @@ class Game {
                     that.testMove('left');
                     break;
                 case 39:
-                    that.testMove('right')
+                    that.testMove('right');
                     break;
             }
             that.onTargetCount();
         });
+        this.onTargetCount();
+    }
+
+    renderStage(levelInfo) {
+        this.blockList = [];
+        this.prevLevel = levelInfo.prev;
+        this.nextLevel = levelInfo.next;
+        this.notWin = true;
+        this.setControlButton();
+        document.getElementById('g').innerHTML = '';
+        this.player = blockGenerator('player', levelInfo.playerPosition);
+        this.targetList = levelInfo.targetList.map((element, i) => {
+            return blockGenerator('target', element);
+        });
+        for (let i = 0; i < levelInfo.blockList.length; i++) {
+            let t = levelInfo.blockList[i];
+            let s = blockGenerator(t.blockType, t.position);
+            this.blockList.push(s);
+        }
         this.onTargetCount();
     }
 
@@ -57,26 +93,9 @@ class Game {
         var that = this;
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);
-                that.blockList = [];
                 var levelInfo = JSON.parse(xhr.responseText);
                 that.currentLevel = levelUrl;
-                that.prevLevel = levelInfo.prev;
-                that.nextLevel = levelInfo.next;
-                that.notWin = true;
-                console.log(that);
-                that.setControlButton();
-                document.getElementById('g').innerHTML = '';
-                that.player = blockGenerator('player', levelInfo.playerPosition);
-                that.targetList = levelInfo.targetList.map((element, i) => {
-                    return blockGenerator('target', element);
-                });
-                for (let i = 0; i < levelInfo.blockList.length; i++) {
-                    let t = levelInfo.blockList[i];
-                    let s = blockGenerator(t.blockType, t.position);
-                    that.blockList.push(s);
-                }
-                that.onTargetCount();
+                that.renderStage(levelInfo);
             }
         };
     }
@@ -110,7 +129,6 @@ class Game {
             y: testPos1.y + directionList[direction].y
         };
         var nearByBlock = this.getBlockByPosition(testPos1);
-        console.log(nearByBlock);
         if (nearByBlock === null) {
             this.player.move(direction);
         } else {

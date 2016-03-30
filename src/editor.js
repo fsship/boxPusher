@@ -32,7 +32,11 @@ class Editor {
             this.removeBlock(position);
         }
         var p = blockGenerator(blockType, position);
-        this.staticInfo[p.constructor.name]++;
+        if (!this.staticInfo[p.constructor.name]) {
+            this.staticInfo[p.constructor.name] = 1;
+        } else {
+            this.staticInfo[p.constructor.name]++;
+        }
         this.blockList.push(p);
     }
 
@@ -76,8 +80,41 @@ class Editor {
     }
 
     generateLevel() {
-        console.log(this.staticInfo);
-        console.log(Player.name);
+        var jsonDoc = {
+            blockList: [],
+            targetList: [],
+            prev: null,
+            next: null
+        };
+        for (let i = 0; i < this.blockList.length; i++) {
+            if (this.blockList[i] instanceof Player) {
+                jsonDoc.playerPosition = {
+                    x: this.blockList[i].x,
+                    y: this.blockList[i].y
+                };
+            } else if (this.blockList[i] instanceof Target) {
+                jsonDoc.targetList.push({
+                    x: this.blockList[i].x,
+                    y: this.blockList[i].y
+                });
+            } else {
+                jsonDoc.blockList.push({
+                    blockType: this.blockList[i] instanceof FixedBlock ? 'fixed':'box',
+                    position: {
+                        x: this.blockList[i].x,
+                        y: this.blockList[i].y
+                    }
+                })
+            }
+        }
+        var jsonFile = new Blob([JSON.stringify(jsonDoc)], {
+            type: 'application/json'
+        });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(jsonFile);
+        a.download = 'level.json';
+        a.click();
+
     }
 }
 

@@ -59,7 +59,7 @@ class Editor {
         }
         theBlock.block.element.remove();
         this.staticInfo[theBlock.block.constructor.name]--;
-        this.blockList.slice(theBlock.index);
+        this.blockList = this.blockList.slice(theBlock.index, 1);
     }
 
     setCurrentTool(toolName) {
@@ -104,7 +104,7 @@ class Editor {
                         x: this.blockList[i].x,
                         y: this.blockList[i].y
                     }
-                })
+                });
             }
         }
         var jsonFile = new Blob([JSON.stringify(jsonDoc)], {
@@ -114,7 +114,6 @@ class Editor {
         a.href = URL.createObjectURL(jsonFile);
         a.download = 'level.json';
         a.click();
-
     }
 }
 

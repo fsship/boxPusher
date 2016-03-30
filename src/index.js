@@ -43,6 +43,9 @@ class Game {
                 case 'loadLocal':
                     that.dropArea.show();
                     break;
+                case 'levelEditor':
+                    location.href = './levelEditor.html';
+                    break;
                 default :
                     that.dropArea.hide();
             }

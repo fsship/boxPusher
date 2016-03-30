@@ -51,7 +51,7 @@ lines.map((data, i) => {
             doc.playerPosition = {
                 x: data[1],
                 y: data[2]
-            }
+            };
             break;
         case 'b':
             doc.blockList.push({

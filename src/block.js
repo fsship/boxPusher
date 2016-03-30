@@ -1,6 +1,6 @@
 'use strict';
 
-import './Block.css';
+import './block.css';
 
 export default class Block {
     constructor(position) {
@@ -20,7 +20,7 @@ export default class Block {
     }
 }
 
-class Target extends Block {
+export class Target extends Block {
     constructor(position) {
         super(position);
         this.element.classList.add('target');

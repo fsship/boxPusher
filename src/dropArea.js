@@ -5,7 +5,7 @@ export default class DropArea {
         this.element = document.createElement('div');
         this.element.innerHTML = '拖放关卡文件到这里';
         this.element.classList.add('dropArea');
-        this.element.dr
+        this.element.dr;
         this.element.style.display = 'none';
         document.body.appendChild(this.element);
     }

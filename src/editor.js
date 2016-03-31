@@ -29,7 +29,6 @@ class Editor {
             var testWindow = window.open('./index.html', '_blank');
             testWindow.addEventListener('DOMContentLoaded', () => {
                 testWindow.postMessage(this.generateLevel(), document.origin);
-                console.log('posted');
             });
         });
     }
@@ -66,7 +65,7 @@ class Editor {
         }
         theBlock.block.element.remove();
         this.staticInfo[theBlock.block.constructor.name]--;
-        this.blockList = this.blockList.slice(theBlock.index, 1);
+        this.blockList.splice(theBlock.index, 1);
     }
 
     setCurrentTool(toolName) {

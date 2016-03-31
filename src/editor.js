@@ -27,7 +27,7 @@ class Editor {
         });
         document.getElementById('test').addEventListener('click', () => {
             var testWindow = window.open('./index.html', '_blank');
-            testWindow.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('message', () => {
                 testWindow.postMessage(this.generateLevel(), document.origin);
             });
         });

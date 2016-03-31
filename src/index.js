@@ -195,3 +195,4 @@ window.addEventListener('message', (m) => {
     game.levelInfo = m.data;
     game.renderStage();
 }, false);
+window.opener.postMessage('ready', document.origin);

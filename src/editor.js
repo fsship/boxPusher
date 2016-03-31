@@ -23,7 +23,14 @@ class Editor {
         });
         this.setCurrentTool('fixed');
         document.getElementById('download').addEventListener('click', () => {
-            this.generateLevel();
+            this.downloadLevel();
+        });
+        document.getElementById('test').addEventListener('click', () => {
+            var testWindow = window.open('./index.html', '_blank');
+            testWindow.addEventListener('DOMContentLoaded', () => {
+                testWindow.postMessage(this.generateLevel(), document.origin);
+                console.log('posted');
+            });
         });
     }
 
@@ -107,6 +114,11 @@ class Editor {
                 });
             }
         }
+        return jsonDoc;
+    }
+
+    downloadLevel() {
+        var jsonDoc = this.generateLevel();
         var jsonFile = new Blob([JSON.stringify(jsonDoc)], {
             type: 'application/json'
         });

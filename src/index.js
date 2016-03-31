@@ -16,6 +16,7 @@ class Game {
         this.nextLevel = null;
         this.notWin = true;
         this.currentLevel = null;
+        this.levelInfo = {};
         this.dropArea = new DropArea();
         var that = this;
         this.dropArea.addDropHandler((e) => {
@@ -38,7 +39,7 @@ class Game {
                     that.loadLevel(that.nextLevel);
                     break;
                 case 'restart':
-                    that.loadLevel(that.currentLevel);
+                    that.renderStage(that.levelInfo);
                     break;
                 case 'loadLocal':
                     that.dropArea.show();
@@ -70,13 +71,18 @@ class Game {
         this.onTargetCount();
     }
 
-    renderStage(levelInfo) {
+    renderStage() {
+        var levelInfo = this.levelInfo;
         this.blockList = [];
         this.prevLevel = levelInfo.prev;
         this.nextLevel = levelInfo.next;
         this.notWin = true;
         this.setControlButton();
         document.getElementById('g').innerHTML = '';
+        if (!levelInfo.playerPosition) {
+            alert('关卡中没有玩家!');
+            return ;
+        }
         this.player = blockGenerator('player', levelInfo.playerPosition);
         this.targetList = levelInfo.targetList.map((element, i) => {
             return blockGenerator('target', element);
@@ -98,6 +104,7 @@ class Game {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var levelInfo = JSON.parse(xhr.responseText);
                 that.currentLevel = levelUrl;
+                that.levelInfo = levelInfo;
                 that.renderStage(levelInfo);
             }
         };
@@ -182,3 +189,9 @@ class Game {
 
 var game = new Game();
 game.loadLevel('./levels/level1.json');
+window.addEventListener('message', (m) => {
+    document.getElementById('levelEditor').remove();
+    document.getElementById('loadLocal').remove();
+    game.levelInfo = m.data;
+    game.renderStage();
+}, false);

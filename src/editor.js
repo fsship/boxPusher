@@ -1,13 +1,16 @@
 'use strict';
 
-import {blockGenerator, Player, Target, FixedBlock} from './block';
+import {blockGenerator, Player, Target, FixedBlock, Box} from './block';
 import './editor.scss';
 
 class Editor {
     constructor() {
         this.stageElement = document.querySelector('.gameBox');
         this.currentTool = '';
-        this.staticInfo = {};
+        this.staticInfo = {
+            target: 0,
+            box: 0
+        };
         this.blockList = [];
         this.stageElement.addEventListener('click', (e) => {
             var position = this.positionToGrid(e.clientX - this.stageElement.offsetLeft, e.clientY - this.stageElement.offsetTop);
@@ -26,9 +29,13 @@ class Editor {
             this.downloadLevel();
         });
         document.getElementById('test').addEventListener('click', () => {
+            var levelInfo = this.generateLevel();
+            if (!levelInfo) {
+                return ;
+            }
             var testWindow = window.open('./index.html', '_blank');
             window.addEventListener('message', () => {
-                testWindow.postMessage(this.generateLevel(), document.origin);
+                testWindow.postMessage(levelInfo, document.origin);
             });
         });
     }
@@ -38,11 +45,17 @@ class Editor {
             this.removeBlock(position);
         }
         var p = blockGenerator(blockType, position);
-        if (!this.staticInfo[p.constructor.name]) {
-            this.staticInfo[p.constructor.name] = 1;
-        } else {
-            this.staticInfo[p.constructor.name]++;
+        if (blockType == 'player') {
+            for (let i = 0; i < this.blockList.length; i++) {
+                if (this.blockList[i] instanceof Player) {
+                    this.removeBlock({
+                        x: this.blockList[i].x,
+                        y: this.blockList[i].y
+                    });
+                }
+            }
         }
+        this.staticInfo[blockType]++;
         this.blockList.push(p);
     }
 
@@ -63,8 +76,12 @@ class Editor {
         if (!theBlock) {
             return ;
         }
+        ['target', 'box'].forEach((i) => {
+            if (theBlock.block.element.classList.contains(i)) {
+                this.staticInfo[i]--;
+            }
+        });
         theBlock.block.element.remove();
-        this.staticInfo[theBlock.block.constructor.name]--;
         this.blockList.splice(theBlock.index, 1);
     }
 
@@ -92,6 +109,10 @@ class Editor {
             prev: null,
             next: null
         };
+        if (this.staticInfo['box'] != this.staticInfo['target']) {
+            alert('箱子数与目标数不相等!');
+            return false;
+        }
         for (let i = 0; i < this.blockList.length; i++) {
             if (this.blockList[i] instanceof Player) {
                 jsonDoc.playerPosition = {
@@ -118,6 +139,9 @@ class Editor {
 
     downloadLevel() {
         var jsonDoc = this.generateLevel();
+        if (!jsonDoc) {
+            return ;
+        }
         var jsonFile = new Blob([JSON.stringify(jsonDoc)], {
             type: 'application/json'
         });
